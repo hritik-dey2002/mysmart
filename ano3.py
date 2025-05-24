@@ -24,7 +24,7 @@ import hashlib
 import random
 import string
 #from streamlit_option_menu import option_menu
-from streamlit_navigation_bar import st_navbar
+#from streamlit_navigation_bar import st_navbar
 
 # Function to generate a random meeting link
 def generate_jitsi_link():
