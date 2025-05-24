@@ -92,3 +92,4 @@ mysql-connector==2.2.9
 mysql-connector-python==9.2.0
 fpdf==1.7.2
 streamlit-navigation-bar==3.3.0
+streamlit-option-menu==0.3.13
