@@ -11,7 +11,7 @@ from pyresparser import ResumeParser
 # from resume_parser import resumeparse
 from streamlit_tags import st_tags
 from PIL import Image
-# import pymysql
+import pymysql
 import mysql.connector
 # import plotly.express as px
 # from plotly import optional_imports
@@ -216,7 +216,7 @@ def send_email(to_email, subject, message):
         print(f'Error sending email: {e}')
 
 # connection = pymysql.connect(host='localhost', user='root', password='')
-connection = mysql.connector.connect(host='localhost', user='root', password='',database='sra4000')
+connection = mysql.connector.connect(host='sql12.freesqldatabase.com', user='sql12763883', password='UbNkeHVXWh',database='sql12763883')
 cursor = connection.cursor()
 
 # def insert_data(candidate_id, name, email, timestamp, exp, skills,count,Resume,Application_pdf,rid):
