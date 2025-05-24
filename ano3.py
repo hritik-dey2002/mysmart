@@ -23,6 +23,7 @@ from fpdf import FPDF
 import hashlib
 import random
 import string
+from streamlit_option_menu import option_menu
 from streamlit_navigation_bar import st_navbar
 
 
