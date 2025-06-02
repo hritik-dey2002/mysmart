@@ -921,446 +921,445 @@ def run():
                                 company = company_signin(st.session_state.company_user, st.session_state.company_password)
                                 if company:
                                     #st.experimental_rerun()
-                                    #st.rerun()
-                                    pages = {
-                                    "Home": "🏠 Home",
-                                    "Display Shortlist Candidates": "📅 Shortlisted Candidates",
-                                    "Scheduled Interview": "📅 Scheduled Interview",
-                                    "About":"💡About",
-                                    "Logout": "🔐 Logout"
-                                    }
-
-                                    # This is the only valid argument: list of options
-                                    selected_page = st_navbar(list(pages.values()))
-
-                                    # Map back the selected label to internal page name
-                                    label_to_key = {v: k for k, v in pages.items()}
-                                    page = label_to_key[selected_page]
-
-                                    # Now render the content like before
-                                    # st.title(pages[page])
-                                    st.toast(f"**:green[Welcome back, {st.session_state['company_name']}! 🎉]**")
-
-                                    page_bg_img = f"""
-                                    <style>
-                                    [data-testid="stAppViewContainer"] > .main {{
-                                    background-image: url("https://i.postimg.cc/LXgf9ZvP/Untitled-design-43.png");
-
-                                    background-position: center center;
-
-                                    /* Make image fixed */
-                                    background-attachment: fixed;
-
-                                    /* Not repeat images */
-                                    background-repeat: no-repeat;
-
-                                    /* Set background size auto */
-                                    background-size: 100%;
-                                    }}
-
-                                    [data-testid="stHeader"] {{
-                                    background: rgba(0,0,0,0);
-                                    }}
-
-                                    </style>
-                                    """
-
-                                    st.markdown(page_bg_img, unsafe_allow_html=True)
-                                    if page=="Home":
-
-                                        activities = ["Web Development", "Python Development", "Java Development", "Data Scientist", "Full Stack Development","Android Development"]     
-                                        choice1 = st.selectbox("**Choose Required Domain:**", activities)
-                                        st.session_state.c1=choice1
-                                        st.subheader("You Selected: " + choice1)
-                                        cursor.execute('''SELECT Actual_skills FROM user''')
-                                        data = cursor.fetchall()
-                                        cursor.execute('''SELECT Email_ID FROM user''')
-                                        data2 = cursor.fetchall()
-                                        if choice1=="Web Development":
-                                            options = st.multiselect(
-                                                "Choose the required fields",
-                                                ["JavaScript", "HTML", "CSS","React","PHP","Node.js","Next.js","Express.js"],
-                                                ["HTML"],
-                                            )
-                                            li=options
-                                            l=[]
-                                            for x in data:
-                                                for y in x:
-                                                    converted_list = eval(y)
-                                                    c=0
-                                                    lowercase_list = [item.lower() for item in converted_list]
-                                                    for i in range(len(li)):
-                                                        if li[i].lower() in lowercase_list:
-                                                            c=c+1
-                                                    
-                                                    l.append(c)
-                                            emails_list = [email[0] for email in data2]
-                                            result = dict(zip(emails_list, l))
-                                            for email, value in result.items():
-                                                delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
-                                                cursor.execute(delete_sql, (value,email,))
-                                                connection.commit()
-                                            age = st.slider("**select required experience year?**", 0, 40, 5)
-                                            st.subheader("**Experience level set to: **"+ str(age) + "** years**")
-                                            job_deadline = st.date_input("Application Deadline", min_value=datetime.date.today())
-                                            des=st.text_area("Description","Write here something")
-                        
-                                        elif choice1=="Python Development":
-                                            options = st.multiselect(
-                                                "Choose the required fields",
-                                                ["Python", "Django", "Flask","Tkinter","CherryPy","WEB2PY","FastAPI","TensorFlow"],
-                                                ["Python"],
-                                            )
-                                            li=options
-                                            l=[]
-                                            for x in data:
-                                                for y in x:
-                                                    converted_list = eval(y)
-                                                    c=0
-                                                    lowercase_list = [item.lower() for item in converted_list]
-                                                    for i in range(len(li)):
-                                                        if li[i].lower() in lowercase_list:
-                                                            c=c+1
-                                                    l.append(c)
-                                            emails_list = [email[0] for email in data2]
-                                            result = dict(zip(emails_list, l))
-                                            for email, value in result.items():
-                                                delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
-                                                cursor.execute(delete_sql, (value,email,))
-                                                connection.commit()
-                                            age = st.slider("**select required experience year?**", 0, 40, 5)
-                                            st.subheader("**Experience level set to: **"+ str(age) + "** years**")
-                                            job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
-                                            des=st.text_area("Description","Write here something")
-
-
-                            
-                                        elif choice1=="Java Development":
-                                            options = st.multiselect(
-                                                "Choose the required fields",
-                                                ["java", "JSP", "Servlet","Spring boot","JavaScript","angular"],
-                                                ["java"],
-                                            )
-                                            li=options
-                                            l=[]
-                                            for x in data:
-                                                for y in x:
-                                                    converted_list = eval(y)
-                                                    c=0
-                                                    lowercase_list = [item.lower() for item in converted_list]
-                                                    for i in range(len(li)):
-                                                        if li[i].lower() in lowercase_list:
-                                                            c=c+1
-                                                    l.append(c)
-                                            emails_list = [email[0] for email in data2]
-                                            result = dict(zip(emails_list, l))
-                                            for email, value in result.items():
-                                                delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
-                                                cursor.execute(delete_sql, (value,email,))
-                                                connection.commit()
-                                            age = st.slider("**select required experience year?**", 0, 40, 5)
-                                            st.subheader("**Experience level set to: **"+ str(age) + "** years**")
-                                            job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
-                                            des=st.text_area("Description","Write here something")
-                                        
-                                        elif choice1=="Data Scientist":
-                                            options = st.multiselect(
-                                                "Choose the required fields",
-                                                ["Mechine Learning", "Python", "AI","NLP","Deep Learning","Pandas","TensorFlow","Power BI","Pytorch","Excel"],
-                                                ["AI"],
-                                            )
-                                            li=options
-                                            l=[]
-                                            for x in data:
-                                                for y in x:
-                                                    converted_list = eval(y)
-                                                    c=0
-                                                    lowercase_list = [item.lower() for item in converted_list]
-                                                    for i in range(len(li)):
-                                                        if li[i].lower() in lowercase_list:
-                                                            c=c+1
-                                                    l.append(c)
-
-                                            emails_list = [email[0] for email in data2]
-                                            result = dict(zip(emails_list, l))
-                                            for email, value in result.items():
-                                                delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
-                                                cursor.execute(delete_sql, (value,email,))
-                                                connection.commit()
-                                            age = st.slider("**select required experience year?**", 0, 40, 5)
-                                            st.subheader("**Experience level set to: **"+ str(age) + "** years**")
-                                            job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
-                                            des=st.text_area("Description","Write here something")
-
-                                        elif choice1=="Full Stack Development":
-                                            options = st.multiselect(
-                                                "Choose the required fields",
-                                                ["Python", "Java", "R", "Ruby", "Node.js", "PHP", "React", "Angular", "Express.js","C++","MongoDB","MySQL","PostgreSQL"],
-                                                ["PHP"],
-                                            )
-                                            li=options
-                                            l=[]
-                                            for x in data:
-                                                for y in x:
-                                                    converted_list = eval(y)
-                                                    c=0
-                                                    lowercase_list = [item.lower() for item in converted_list]
-                                                    for i in range(len(li)):
-                                                        if li[i].lower() in lowercase_list:
-                                                            c=c+1
-                                                    l.append(c)
-                                            emails_list = [email[0] for email in data2]
-                                            result = dict(zip(emails_list, l))
-                                            for email, value in result.items():
-                                                delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
-                                                cursor.execute(delete_sql, (value,email,))
-                                                connection.commit()
-                                            age = st.slider("**select required experience year?**", 0, 40, 5)
-                                            st.subheader("**Experience level set to: **"+ str(age) + "** years**")
-                                            job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
-                                            des=st.text_area("Description","Write here something")
-
-                                        elif choice1=="Android Development":
-                                            options = st.multiselect(
-                                                "Choose the required fields",
-                                                ["Java","Kotlin","Android UI","C++","Python"],
-                                                ["Java"],
-                                            )
-                                            li=options
-                                            l=[]
-                                            for x in data:
-                                                for y in x:
-                                                    converted_list = eval(y)
-                                                    c=0
-                                                    lowercase_list = [item.lower() for item in converted_list]
-                                                    for i in range(len(li)):
-                                                        if li[i].lower() in lowercase_list:
-                                                            c=c+1
-                                                    l.append(c)
-
-                                            emails_list = [email[0] for email in data2]
-                                            result = dict(zip(emails_list, l))
-                                            for email, value in result.items():
-                                                delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
-                                                cursor.execute(delete_sql, (value,email,))
-                                                connection.commit()
-                                            age = st.slider("**select required experience year?**", 0, 40, 5)
-                                            st.subheader("**Experience level set to: **"+ str(age) + "** years**")
-                                            job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
-                                            des=st.text_area("Description","Write here something")
-
-                                        if "load1_state" not in st.session_state:
-                                            st.session_state.load1_state = False  # For "Submit new recruitment posts"
-                                        if "load12_state" not in st.session_state:
-                                            st.session_state.load12_state = False  # For "View Previous Recruitment Posts"
-                                        if "load120_state" not in st.session_state:
-                                            st.session_state.load120_state = False
-
-                                        # First Button: Submit New Recruitment Posts
-                                        load1 = st.button('Submit new recruitment posts',type="primary")
-
-                                        if load1:
-                                            st.session_state.load12_state = False
-                                            st.session_state.load1_state = True  # Set flag to indicate button click
-                                            # st.session_state.load12_state = False  # Ensure the other button state is reset
-
-                                        if st.session_state.load1_state:
-                                            ts = time.time()
-                                            cur_date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-                                            cur_time = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-                                            timestamp = str(cur_date + '_' + cur_time)
-
-                                            jid=insert_recruit_data(st.session_state.company_user, choice1, ', '.join(options), timestamp, age, job_deadline,des)
-                                            
-                                            st.success(f"**New recruitment post for {choice1} submitted sucessfully**")
-                                            st.success(f"**Post ID is: {jid}**")
-                                            st.session_state.load1_state = False
-
-                                        # Second Button: View Previous Recruitment Posts (Runs Independently)
-                                        load12 = st.button("View Previous Recruitment Posts")
-
-                                        if load12:
-                                            st.session_state.load1_state = False
-                                            st.session_state.load12_state = True  # Set flag for this button
-                                            # st.session_state.load1_state = False  # Ensure the other button state is reset
-
-                                        if st.session_state.load12_state:
-                                            previous_posts = fetch_previous_recruitments(st.session_state.company_user)
-
-                                            if previous_posts:
-                                                st.header("**Previous Recruitment Posts**")
-                                                df = pd.DataFrame(previous_posts, columns=['RID', 'Domain', 'Recommended Skills', 'Timestamp', 'Experience','Deadline','Job Description'])
-                                                st.dataframe(df)
-                                            else:
-                                                st.info("No previous recruitment posts found.")
-                                    elif page=="Display Shortlist Candidates":
-                                        st.subheader("Select a Job Posting to View Candidates")
-
-                                        # Fetch all job postings for this company
-                                        cursor.execute("SELECT rid, domain FROM recruit_data WHERE cid = %s", (st.session_state.company_user,))
-                                        job_posts = cursor.fetchall()
-
-
-                                        if job_posts:
-                                            job_options = {f"{domain} (ID: {rid})": rid for rid, domain in job_posts}
-                                            selected_label = st.selectbox("Select a Job Posting", options=list(job_options.keys()))
-                                            selected_rid = job_options[selected_label] # Get rid from selected label
-
-                                            # Button to show candidates for selected job posting
-                                            load120 = st.button("Show Candidates for Selected Job",type="primary")
-
-                                            if load120:
-                                                st.session_state.load12_state = False  # Reset previous button states
-                                                st.session_state.load120_state = True  # Set flag for this button
-
-                                            if st.session_state.get("load120_state", False):
-                                                # Retrieve candidates who applied for the selected job
-                                                cursor.execute(f"""
-                                                    SELECT candidate_id, Name, Email_ID, Experience, Actual_skills, Resume
-                                                    FROM user 
-                                                    WHERE rid = %s AND Count >= 1 AND Experience >= (SELECT experience FROM recruit_data WHERE rid = %s) 
-                                                    ORDER BY Count DESC
-                                                """, (selected_rid, selected_rid))
-                                                
-                                                data10 = cursor.fetchall()
-
-                                                cursor.execute(f"""
-                                                    SELECT candidate_id, Name, Email_ID, Experience, Actual_skills
-                                                    FROM user 
-                                                    WHERE rid = %s AND Count >= 1 AND Experience >= (SELECT experience FROM recruit_data WHERE rid = %s) 
-                                                    ORDER BY Count DESC
-                                                """, (selected_rid, selected_rid))
-                                                
-                                                data_10 = cursor.fetchall()
-
-                                                # Display Candidate Data
-                                                if data10:
-                                                    df2 = pd.DataFrame(data_10, columns=['Candidate_ID', 'Name', 'Email_ID', 'Experience', 'Actual Skills'])
-                                                    st.dataframe(df2)
-
-                                                    df1 = pd.DataFrame(data10, columns=['Candidate_ID', 'Name', 'Email_ID', 'Experience', 'Actual Skills','Resume'])
-
-                                                    st.write("## Shortlist Candidates")
-
-                                                    # Iterate through candidates and provide actions
-                                                    for index, row in df1.iterrows():
-                                                        cols = st.columns([1, 2, 2, 2])  # Adjust column width ratio as needed
-                                                        cols[0].write(row["Candidate_ID"])
-                                                        cols[1].write(row["Name"])
-
-                                                        # Download Resume Button
-                                                        if row["Resume"]:
-                                                            cols[2].download_button(
-                                                                label="Download Resume",
-                                                                data=row["Resume"],  # Resume binary data
-                                                                file_name=f"{row['Name']}_resume.pdf",
-                                                                mime="application/pdf"
-                                                            )
-
-                                                        # Accept Candidate Button
-                                                        with cols[3]:
-                            
-                                                                accept_key = f"accept_state_{row['Candidate_ID']}"
-                                                                accept = st.button(f"Accept {row['Name']}", type="primary", key=f"interview_{row['Candidate_ID']}")
-
-                                                                if accept:
-                                                                    st.session_state[accept_key] = True
-
-                                                                if st.session_state.get(accept_key, False):
-                                                                    cursor.execute(f"SELECT Name FROM {DB_table_name1} WHERE cid = %s", (st.session_state.company_user,))
-                                                                    r = cursor.fetchone()
-                                                                    # Update status to "Shortlisted"
-                                                                    cursor.execute("UPDATE user SET status = 'Shortlisted' WHERE candidate_id = %s AND rid = %s", (row["Candidate_ID"], selected_rid))
-                                                                    connection.commit()
-
-                                                                    today = datetime.date.today()
-
-                                                                    company_id = st.session_state.company_user
-                                                                    company_name = st.session_state.get("company_name", "Your Company")
-
-                                                                    cursor.execute("SELECT email FROM user_info WHERE candidate_id = %s", (row["Candidate_ID"],))
-                                                                    candidate_email = cursor.fetchone()[0]
-
-                                                                    cursor.execute("SELECT domain FROM recruit_data WHERE rid = %s", (selected_rid,))
-                                                                    domain = cursor.fetchone()[0]
-
-                                                                    interview_date = st.date_input("Interview Date", min_value=today, key=f"interview_date_{row['Candidate_ID']}")
-                                                                    interview_time = st.time_input("Interview Time",key=f"interview_time_{row['Candidate_ID']}")
-                                                                    jitsi_link = generate_jitsi_link()
-
-                                                                    if st.button("✅ Schedule Interview",type="primary",key=f"interview_set_{row['Candidate_ID']}"):
-                                                                            cursor.execute("""
-                                                                                INSERT INTO interview_schedule (company_id, Candidate_ID, rid, domain, interview_date, interview_time, jitsi_link)
-                                                                                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                                                                            """, (company_id, row["Candidate_ID"], selected_rid, domain, interview_date, interview_time, jitsi_link))
-                                                                            connection.commit()                                                                    
-
-                                                                            subject = f"{company_name} - Virtual Interview Invitation"
-                                                                            message = f"""Dear Candidate,
-    Thank you for applying to the role at {company_name}. We are pleased to inform you that you have been shortlisted for the next stage of our hiring process.
-
-    Interview Details:
-    📅 Date: {interview_date}
-    🕒 Time: {interview_time}
-    🔗 Link: Please join via your Smart Hiring System profile.
-
-    NOTE:
-    1. Please ensure you have a stable internet connection if the interview is virtual.
-    2. Keep a copy of your resume and any relevant documents.
-
-    We look forward to speaking with you and learning more about your qualifications.
-
-    Regards,  
-    {company_name} Recruitment Team"""
-
-                                                                            send_email(candidate_email, subject, message)
-                                                                            st.success("✅ Interview scheduled successfully.")
-                                                                            st.markdown(f"🔗 **[Join Jitsi Meeting]({jitsi_link})**")
-                                                                
-                                                else:
-                                                    st.info("No candidates have applied for this job yet.")
-                                        else:
-                                            st.info("No job post available yet.")
-                                    elif page=="Scheduled Interview":
-                                        com_get_meeting_link()
-
-                                        
-                                    elif page == "About":
-                                        st.header("About Smart Hiring System")
-                                        st.write("Welcome to the Smart Hiring System, a cutting-edge recruitment platform designed to connect talented candidates with top-tier organizations. Our platform streamlines the hiring process by offering an intuitive interface for job seekers, recruiters, and administrators alike.")
-                                        st.subheader("Key Features:")
-                                        columns = st.columns(3)
-                                        # Add unique content in each column using containers
-                                        with columns[0]:
-                                            with st.container(height=250):
-                                                st.write("**For Candidates:**")
-                                                st.write("Effortlessly apply for jobs, upload resumes, and track your applications. Get instant notifications about interview schedules and stay ahead in your job search.")
-                                                
-
-                                        with columns[1]:
-                                            with st.container(height=250):
-                                                st.write("**For Companies:**")
-                                                st.write(" Post job openings, review candidate applications, and schedule interviews seamlessly. Utilize intelligent filters to shortlist the best talent for your organization.")
-                                                
-                                        with columns[2]:
-                                            with st.container(height=250):
-                                                st.write("**For Admins:**")
-                                                st.write("Oversee platform activities, manage user data, and ensure smooth operations across all stakeholders.")
-                                            
-
-                                    elif page=="Logout":
-                                        st.session_state.clear()
-                                        # st.experimental_rerun()
-                                        st.rerun()
-
+                                    st.rerun()
                         forgot = st.form_submit_button("Forgot Password?")
                         if forgot:
                             st.session_state.reset_mode = True
                             #st.experimental_rerun()
                             st.rerun()
-                
+                else:
                                 
-                                
+                                pages = {
+                                "Home": "🏠 Home",
+                                "Display Shortlist Candidates": "📅 Shortlisted Candidates",
+                                "Scheduled Interview": "📅 Scheduled Interview",
+                                "About":"💡About",
+                                "Logout": "🔐 Logout"
+                                }
+
+                                # This is the only valid argument: list of options
+                                selected_page = st_navbar(list(pages.values()))
+
+                                # Map back the selected label to internal page name
+                                label_to_key = {v: k for k, v in pages.items()}
+                                page = label_to_key[selected_page]
+
+                                # Now render the content like before
+                                # st.title(pages[page])
+                                st.toast(f"**:green[Welcome back, {st.session_state['company_name']}! 🎉]**")
+
+                                page_bg_img = f"""
+                                <style>
+                                [data-testid="stAppViewContainer"] > .main {{
+                                background-image: url("https://i.postimg.cc/LXgf9ZvP/Untitled-design-43.png");
+
+                                background-position: center center;
+
+                                /* Make image fixed */
+                                background-attachment: fixed;
+
+                                /* Not repeat images */
+                                background-repeat: no-repeat;
+
+                                /* Set background size auto */
+                                background-size: 100%;
+                                }}
+
+                                [data-testid="stHeader"] {{
+                                background: rgba(0,0,0,0);
+                                }}
+
+                                </style>
+                                """
+
+                                st.markdown(page_bg_img, unsafe_allow_html=True)
+                                if page=="Home":
+
+                                    activities = ["Web Development", "Python Development", "Java Development", "Data Scientist", "Full Stack Development","Android Development"]     
+                                    choice1 = st.selectbox("**Choose Required Domain:**", activities)
+                                    st.session_state.c1=choice1
+                                    st.subheader("You Selected: " + choice1)
+                                    cursor.execute('''SELECT Actual_skills FROM user''')
+                                    data = cursor.fetchall()
+                                    cursor.execute('''SELECT Email_ID FROM user''')
+                                    data2 = cursor.fetchall()
+                                    if choice1=="Web Development":
+                                        options = st.multiselect(
+                                            "Choose the required fields",
+                                            ["JavaScript", "HTML", "CSS","React","PHP","Node.js","Next.js","Express.js"],
+                                            ["HTML"],
+                                        )
+                                        li=options
+                                        l=[]
+                                        for x in data:
+                                            for y in x:
+                                                converted_list = eval(y)
+                                                c=0
+                                                lowercase_list = [item.lower() for item in converted_list]
+                                                for i in range(len(li)):
+                                                    if li[i].lower() in lowercase_list:
+                                                        c=c+1
+                                                
+                                                l.append(c)
+                                        emails_list = [email[0] for email in data2]
+                                        result = dict(zip(emails_list, l))
+                                        for email, value in result.items():
+                                            delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
+                                            cursor.execute(delete_sql, (value,email,))
+                                            connection.commit()
+                                        age = st.slider("**select required experience year?**", 0, 40, 5)
+                                        st.subheader("**Experience level set to: **"+ str(age) + "** years**")
+                                        job_deadline = st.date_input("Application Deadline", min_value=datetime.date.today())
+                                        des=st.text_area("Description","Write here something")
+                       
+                                    elif choice1=="Python Development":
+                                        options = st.multiselect(
+                                            "Choose the required fields",
+                                            ["Python", "Django", "Flask","Tkinter","CherryPy","WEB2PY","FastAPI","TensorFlow"],
+                                            ["Python"],
+                                        )
+                                        li=options
+                                        l=[]
+                                        for x in data:
+                                            for y in x:
+                                                converted_list = eval(y)
+                                                c=0
+                                                lowercase_list = [item.lower() for item in converted_list]
+                                                for i in range(len(li)):
+                                                    if li[i].lower() in lowercase_list:
+                                                        c=c+1
+                                                l.append(c)
+                                        emails_list = [email[0] for email in data2]
+                                        result = dict(zip(emails_list, l))
+                                        for email, value in result.items():
+                                            delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
+                                            cursor.execute(delete_sql, (value,email,))
+                                            connection.commit()
+                                        age = st.slider("**select required experience year?**", 0, 40, 5)
+                                        st.subheader("**Experience level set to: **"+ str(age) + "** years**")
+                                        job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
+                                        des=st.text_area("Description","Write here something")
+
+
+                        
+                                    elif choice1=="Java Development":
+                                        options = st.multiselect(
+                                            "Choose the required fields",
+                                            ["java", "JSP", "Servlet","Spring boot","JavaScript","angular"],
+                                            ["java"],
+                                        )
+                                        li=options
+                                        l=[]
+                                        for x in data:
+                                            for y in x:
+                                                converted_list = eval(y)
+                                                c=0
+                                                lowercase_list = [item.lower() for item in converted_list]
+                                                for i in range(len(li)):
+                                                    if li[i].lower() in lowercase_list:
+                                                        c=c+1
+                                                l.append(c)
+                                        emails_list = [email[0] for email in data2]
+                                        result = dict(zip(emails_list, l))
+                                        for email, value in result.items():
+                                            delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
+                                            cursor.execute(delete_sql, (value,email,))
+                                            connection.commit()
+                                        age = st.slider("**select required experience year?**", 0, 40, 5)
+                                        st.subheader("**Experience level set to: **"+ str(age) + "** years**")
+                                        job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
+                                        des=st.text_area("Description","Write here something")
+                                    
+                                    elif choice1=="Data Scientist":
+                                        options = st.multiselect(
+                                            "Choose the required fields",
+                                            ["Mechine Learning", "Python", "AI","NLP","Deep Learning","Pandas","TensorFlow","Power BI","Pytorch","Excel"],
+                                            ["AI"],
+                                        )
+                                        li=options
+                                        l=[]
+                                        for x in data:
+                                            for y in x:
+                                                converted_list = eval(y)
+                                                c=0
+                                                lowercase_list = [item.lower() for item in converted_list]
+                                                for i in range(len(li)):
+                                                    if li[i].lower() in lowercase_list:
+                                                        c=c+1
+                                                l.append(c)
+
+                                        emails_list = [email[0] for email in data2]
+                                        result = dict(zip(emails_list, l))
+                                        for email, value in result.items():
+                                            delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
+                                            cursor.execute(delete_sql, (value,email,))
+                                            connection.commit()
+                                        age = st.slider("**select required experience year?**", 0, 40, 5)
+                                        st.subheader("**Experience level set to: **"+ str(age) + "** years**")
+                                        job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
+                                        des=st.text_area("Description","Write here something")
+
+                                    elif choice1=="Full Stack Development":
+                                        options = st.multiselect(
+                                            "Choose the required fields",
+                                            ["Python", "Java", "R", "Ruby", "Node.js", "PHP", "React", "Angular", "Express.js","C++","MongoDB","MySQL","PostgreSQL"],
+                                            ["PHP"],
+                                        )
+                                        li=options
+                                        l=[]
+                                        for x in data:
+                                            for y in x:
+                                                converted_list = eval(y)
+                                                c=0
+                                                lowercase_list = [item.lower() for item in converted_list]
+                                                for i in range(len(li)):
+                                                    if li[i].lower() in lowercase_list:
+                                                        c=c+1
+                                                l.append(c)
+                                        emails_list = [email[0] for email in data2]
+                                        result = dict(zip(emails_list, l))
+                                        for email, value in result.items():
+                                            delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
+                                            cursor.execute(delete_sql, (value,email,))
+                                            connection.commit()
+                                        age = st.slider("**select required experience year?**", 0, 40, 5)
+                                        st.subheader("**Experience level set to: **"+ str(age) + "** years**")
+                                        job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
+                                        des=st.text_area("Description","Write here something")
+
+                                    elif choice1=="Android Development":
+                                        options = st.multiselect(
+                                            "Choose the required fields",
+                                            ["Java","Kotlin","Android UI","C++","Python"],
+                                            ["Java"],
+                                        )
+                                        li=options
+                                        l=[]
+                                        for x in data:
+                                            for y in x:
+                                                converted_list = eval(y)
+                                                c=0
+                                                lowercase_list = [item.lower() for item in converted_list]
+                                                for i in range(len(li)):
+                                                    if li[i].lower() in lowercase_list:
+                                                        c=c+1
+                                                l.append(c)
+
+                                        emails_list = [email[0] for email in data2]
+                                        result = dict(zip(emails_list, l))
+                                        for email, value in result.items():
+                                            delete_sql = f"UPDATE {DB_table_name} SET Count = %s WHERE Email_ID = %s"
+                                            cursor.execute(delete_sql, (value,email,))
+                                            connection.commit()
+                                        age = st.slider("**select required experience year?**", 0, 40, 5)
+                                        st.subheader("**Experience level set to: **"+ str(age) + "** years**")
+                                        job_deadline = st.date_input("Application Deadline",min_value=datetime.date.today())
+                                        des=st.text_area("Description","Write here something")
+
+                                    if "load1_state" not in st.session_state:
+                                        st.session_state.load1_state = False  # For "Submit new recruitment posts"
+                                    if "load12_state" not in st.session_state:
+                                        st.session_state.load12_state = False  # For "View Previous Recruitment Posts"
+                                    if "load120_state" not in st.session_state:
+                                        st.session_state.load120_state = False
+
+                                    # First Button: Submit New Recruitment Posts
+                                    load1 = st.button('Submit new recruitment posts',type="primary")
+
+                                    if load1:
+                                        st.session_state.load12_state = False
+                                        st.session_state.load1_state = True  # Set flag to indicate button click
+                                        # st.session_state.load12_state = False  # Ensure the other button state is reset
+
+                                    if st.session_state.load1_state:
+                                        ts = time.time()
+                                        cur_date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
+                                        cur_time = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+                                        timestamp = str(cur_date + '_' + cur_time)
+
+                                        jid=insert_recruit_data(st.session_state.company_user, choice1, ', '.join(options), timestamp, age, job_deadline,des)
+                                        
+                                        st.success(f"**New recruitment post for {choice1} submitted sucessfully**")
+                                        st.success(f"**Post ID is: {jid}**")
+                                        st.session_state.load1_state = False
+
+                                    # Second Button: View Previous Recruitment Posts (Runs Independently)
+                                    load12 = st.button("View Previous Recruitment Posts")
+
+                                    if load12:
+                                        st.session_state.load1_state = False
+                                        st.session_state.load12_state = True  # Set flag for this button
+                                        # st.session_state.load1_state = False  # Ensure the other button state is reset
+
+                                    if st.session_state.load12_state:
+                                        previous_posts = fetch_previous_recruitments(st.session_state.company_user)
+
+                                        if previous_posts:
+                                            st.header("**Previous Recruitment Posts**")
+                                            df = pd.DataFrame(previous_posts, columns=['RID', 'Domain', 'Recommended Skills', 'Timestamp', 'Experience','Deadline','Job Description'])
+                                            st.dataframe(df)
+                                        else:
+                                            st.info("No previous recruitment posts found.")
+                                elif page=="Display Shortlist Candidates":
+                                    st.subheader("Select a Job Posting to View Candidates")
+
+                                    # Fetch all job postings for this company
+                                    cursor.execute("SELECT rid, domain FROM recruit_data WHERE cid = %s", (st.session_state.company_user,))
+                                    job_posts = cursor.fetchall()
+
+
+                                    if job_posts:
+                                        job_options = {f"{domain} (ID: {rid})": rid for rid, domain in job_posts}
+                                        selected_label = st.selectbox("Select a Job Posting", options=list(job_options.keys()))
+                                        selected_rid = job_options[selected_label] # Get rid from selected label
+
+                                        # Button to show candidates for selected job posting
+                                        load120 = st.button("Show Candidates for Selected Job",type="primary")
+
+                                        if load120:
+                                            st.session_state.load12_state = False  # Reset previous button states
+                                            st.session_state.load120_state = True  # Set flag for this button
+
+                                        if st.session_state.get("load120_state", False):
+                                            # Retrieve candidates who applied for the selected job
+                                            cursor.execute(f"""
+                                                SELECT candidate_id, Name, Email_ID, Experience, Actual_skills, Resume
+                                                FROM user 
+                                                WHERE rid = %s AND Count >= 1 AND Experience >= (SELECT experience FROM recruit_data WHERE rid = %s) 
+                                                ORDER BY Count DESC
+                                            """, (selected_rid, selected_rid))
+                                            
+                                            data10 = cursor.fetchall()
+
+                                            cursor.execute(f"""
+                                                SELECT candidate_id, Name, Email_ID, Experience, Actual_skills
+                                                FROM user 
+                                                WHERE rid = %s AND Count >= 1 AND Experience >= (SELECT experience FROM recruit_data WHERE rid = %s) 
+                                                ORDER BY Count DESC
+                                            """, (selected_rid, selected_rid))
+                                            
+                                            data_10 = cursor.fetchall()
+
+                                            # Display Candidate Data
+                                            if data10:
+                                                df2 = pd.DataFrame(data_10, columns=['Candidate_ID', 'Name', 'Email_ID', 'Experience', 'Actual Skills'])
+                                                st.dataframe(df2)
+
+                                                df1 = pd.DataFrame(data10, columns=['Candidate_ID', 'Name', 'Email_ID', 'Experience', 'Actual Skills','Resume'])
+
+                                                st.write("## Shortlist Candidates")
+
+                                                # Iterate through candidates and provide actions
+                                                for index, row in df1.iterrows():
+                                                    cols = st.columns([1, 2, 2, 2])  # Adjust column width ratio as needed
+                                                    cols[0].write(row["Candidate_ID"])
+                                                    cols[1].write(row["Name"])
+
+                                                    # Download Resume Button
+                                                    if row["Resume"]:
+                                                        cols[2].download_button(
+                                                            label="Download Resume",
+                                                            data=row["Resume"],  # Resume binary data
+                                                            file_name=f"{row['Name']}_resume.pdf",
+                                                            mime="application/pdf"
+                                                        )
+
+                                                    # Accept Candidate Button
+                                                    with cols[3]:
+                        
+                                                            accept_key = f"accept_state_{row['Candidate_ID']}"
+                                                            accept = st.button(f"Accept {row['Name']}", type="primary", key=f"interview_{row['Candidate_ID']}")
+
+                                                            if accept:
+                                                                st.session_state[accept_key] = True
+
+                                                            if st.session_state.get(accept_key, False):
+                                                                cursor.execute(f"SELECT Name FROM {DB_table_name1} WHERE cid = %s", (st.session_state.company_user,))
+                                                                r = cursor.fetchone()
+                                                                # Update status to "Shortlisted"
+                                                                cursor.execute("UPDATE user SET status = 'Shortlisted' WHERE candidate_id = %s AND rid = %s", (row["Candidate_ID"], selected_rid))
+                                                                connection.commit()
+
+                                                                today = datetime.date.today()
+
+                                                                company_id = st.session_state.company_user
+                                                                company_name = st.session_state.get("company_name", "Your Company")
+
+                                                                cursor.execute("SELECT email FROM user_info WHERE candidate_id = %s", (row["Candidate_ID"],))
+                                                                candidate_email = cursor.fetchone()[0]
+
+                                                                cursor.execute("SELECT domain FROM recruit_data WHERE rid = %s", (selected_rid,))
+                                                                domain = cursor.fetchone()[0]
+
+                                                                interview_date = st.date_input("Interview Date", min_value=today, key=f"interview_date_{row['Candidate_ID']}")
+                                                                interview_time = st.time_input("Interview Time",key=f"interview_time_{row['Candidate_ID']}")
+                                                                jitsi_link = generate_jitsi_link()
+
+                                                                if st.button("✅ Schedule Interview",type="primary",key=f"interview_set_{row['Candidate_ID']}"):
+                                                                        cursor.execute("""
+                                                                            INSERT INTO interview_schedule (company_id, Candidate_ID, rid, domain, interview_date, interview_time, jitsi_link)
+                                                                            VALUES (%s, %s, %s, %s, %s, %s, %s)
+                                                                        """, (company_id, row["Candidate_ID"], selected_rid, domain, interview_date, interview_time, jitsi_link))
+                                                                        connection.commit()                                                                    
+
+                                                                        subject = f"{company_name} - Virtual Interview Invitation"
+                                                                        message = f"""Dear Candidate,
+Thank you for applying to the role at {company_name}. We are pleased to inform you that you have been shortlisted for the next stage of our hiring process.
+
+Interview Details:
+📅 Date: {interview_date}
+🕒 Time: {interview_time}
+🔗 Link: Please join via your Smart Hiring System profile.
+
+NOTE:
+1. Please ensure you have a stable internet connection if the interview is virtual.
+2. Keep a copy of your resume and any relevant documents.
+
+We look forward to speaking with you and learning more about your qualifications.
+
+Regards,  
+{company_name} Recruitment Team"""
+
+                                                                        send_email(candidate_email, subject, message)
+                                                                        st.success("✅ Interview scheduled successfully.")
+                                                                        st.markdown(f"🔗 **[Join Jitsi Meeting]({jitsi_link})**")
+                                                            
+                                            else:
+                                                st.info("No candidates have applied for this job yet.")
+                                    else:
+                                        st.info("No job post available yet.")
+                                elif page=="Scheduled Interview":
+                                    com_get_meeting_link()
+
+                                    
+                                elif page == "About":
+                                    st.header("About Smart Hiring System")
+                                    st.write("Welcome to the Smart Hiring System, a cutting-edge recruitment platform designed to connect talented candidates with top-tier organizations. Our platform streamlines the hiring process by offering an intuitive interface for job seekers, recruiters, and administrators alike.")
+                                    st.subheader("Key Features:")
+                                    columns = st.columns(3)
+                                    # Add unique content in each column using containers
+                                    with columns[0]:
+                                        with st.container(height=250):
+                                            st.write("**For Candidates:**")
+                                            st.write("Effortlessly apply for jobs, upload resumes, and track your applications. Get instant notifications about interview schedules and stay ahead in your job search.")
+                                            
+
+                                    with columns[1]:
+                                        with st.container(height=250):
+                                            st.write("**For Companies:**")
+                                            st.write(" Post job openings, review candidate applications, and schedule interviews seamlessly. Utilize intelligent filters to shortlist the best talent for your organization.")
+                                            
+                                    with columns[2]:
+                                        with st.container(height=250):
+                                            st.write("**For Admins:**")
+                                            st.write("Oversee platform activities, manage user data, and ensure smooth operations across all stakeholders.")
+                                        
+
+                                elif page=="Logout":
+                                    st.session_state.clear()
+                                    # st.experimental_rerun()
+                                    st.rerun()
+
         except Exception as main_error:
             st.error(f"**⚠ An unexpected error occurred: {main_error}**")
 
