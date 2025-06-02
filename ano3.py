@@ -218,11 +218,8 @@ def send_email(to_email, subject, message):
     except Exception as e:
         print(f'Error sending email: {e}')
 
-# connection = pymysql.connect(host='localhost', user='root', password='')
+connection = pymysql.connect(host='localhost', user='root', password='')
 #connection = mysql.connector.connect(host='sql12.freesqldatabase.com', user='sql12780981', password='DGiXZEmDVf',database='sql12780981')
-#cursor = connection.cursor()
-
-connection = mysql.connector.connect(host='localhost', user='root', password='',database='')
 cursor = connection.cursor()
 
 # def insert_data(candidate_id, name, email, timestamp, exp, skills,count,Resume,Application_pdf,rid):
