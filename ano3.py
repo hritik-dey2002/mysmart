@@ -219,10 +219,7 @@ def send_email(to_email, subject, message):
         print(f'Error sending email: {e}')
 
 #connection = pymysql.connect(host='localhost', user='root', password='')
-#connection = mysql.connector.connect(host='sql12.freesqldatabase.com', user='sql12780981', password='DGiXZEmDVf',database='sql12780981')
-#cursor = connection.cursor()
-
-connection = mysql.connector.connect(host='sql300.infinityfree.com', user='if0_39142080', password='9NrYQ3sEkltnG',database='if0_39142080_hd')
+connection = mysql.connector.connect(host='sql12.freesqldatabase.com', user='sql12780981', password='DGiXZEmDVf',database='sql12780981')
 cursor = connection.cursor()
 
 # def insert_data(candidate_id, name, email, timestamp, exp, skills,count,Resume,Application_pdf,rid):
