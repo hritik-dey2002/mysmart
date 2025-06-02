@@ -285,7 +285,7 @@ def company_signin(cid, password):
     has_pass=hash_password(password)
     cursor.execute("SELECT * FROM com_data WHERE cid = %s AND password = %s", (cid, has_pass))
     result = cursor.fetchone()
-    st.write("Entered (hashed):", has_pass)
+    #st.write("Entered (hashed):", has_pass)
     if result:
         st.session_state.company_logged_in = True
         st.session_state.company_id = result[0]
