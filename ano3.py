@@ -922,6 +922,7 @@ def run():
                                 time.sleep(2)
                             # st.session_state.has_pass=hash_password(st.session_state.company_password)
                                 company = company_signin(st.session_state.company_user, st.session_state.company_password)
+                                st.rerun()
                                 if company:
                                     #st.experimental_rerun()
                                     # st.rerun()
