@@ -929,6 +929,7 @@ def run():
                                     st.session_state.company_logged_in = True
                                     st.session_state.company_user_id = company[0]
                                     st.session_state.company_name = company[1]
+                                    st.rerun()
                         forgot = st.form_submit_button("Forgot Password?")
                         if forgot:
                             st.session_state.reset_mode = True
