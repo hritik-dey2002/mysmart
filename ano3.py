@@ -870,7 +870,7 @@ def run():
                                 st.error(f"**_An unexpected error occurred: {e}_**")
 
             else: 
-                if st.session_state.reset_mode:
+                if st.session_state.get("reset_mode", False):
                     original_title ='''<p style="font-size: 50px; font-weight: bold;color: #333; 
                     text-shadow: 
                     1px 1px 0px #eab,  /* Top-left shadow (light) */
@@ -892,13 +892,14 @@ def run():
                             else:
                                 hashed = hash_password(new_password)
                                 reset_password_company(email, hashed)
+                                st.session_state.reset_mode = False
 
                     if st.button("⬅ Back to Sign In"):
                         st.session_state.reset_mode = False
                         #st.experimental_rerun()  
-                        st.rerun()
+                        # st.rerun()
                     return               
-                if not st.session_state.get("company_logged_in", False):
+                if not st.session_state.get("company_logged_in", False) and not st.session_state.get("reset_mode", False):
                     original_title ='''<p style="font-size: 50px; font-weight: bold;color: #333; 
                     text-shadow: 
                     1px 1px 0px #eab,  /* Top-left shadow (light) */
@@ -923,13 +924,17 @@ def run():
                                 company = company_signin(st.session_state.company_user, st.session_state.company_password)
                                 if company:
                                     #st.experimental_rerun()
-                                    st.rerun()
+                                    # st.rerun()
+                                    st.session_state.company_logged_in = True
+                                    st.session_state.company_user_id = company[0]
+                                    st.session_state.company_name = company[1]
                         forgot = st.form_submit_button("Forgot Password?")
                         if forgot:
                             st.session_state.reset_mode = True
                             #st.experimental_rerun()
                             st.rerun()
                 else:
+                    if st.session_state.get("company_logged_in", False):
                                 
                                 pages = {
                                 "Home": "🏠 Home",
