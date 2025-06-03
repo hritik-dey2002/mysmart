@@ -924,8 +924,8 @@ def run():
                                 company = company_signin(st.session_state.company_user, st.session_state.company_password)
                                 
                                 if company:
-                                    st.experimental_rerun()
-                                    # st.rerun()
+                                    #st.experimental_rerun()
+                                    st.rerun()
                                     st.session_state.company_logged_in = True
                                     st.session_state.company_user_id = company[0]
                                     st.session_state.company_name = company[1]
