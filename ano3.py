@@ -925,7 +925,7 @@ def run():
                                 
                                 if company:
                                     #st.experimental_rerun()
-                                    st.rerun()
+                                    #st.rerun()
                                     st.session_state.company_logged_in = True
                                     st.session_state.company_user_id = company[0]
                                     st.session_state.company_name = company[1]
