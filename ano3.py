@@ -60,8 +60,7 @@ def com_get_meeting_link():
     cursor.execute("""
        SELECT candidate_id, interview_date, interview_time, jitsi_link, rid, domain 
     FROM interview_schedule
-    WHERE candidate_id = %s
-  AND TIMESTAMP(interview_date, interview_time) >= DATE_SUB(NOW(), INTERVAL 11 HOUR)
+    WHERE TIMESTAMP(interview_date, interview_time) >= DATE_SUB(NOW(), INTERVAL 11 HOUR)
   AND interview_date = CURDATE();
     """)
     result=cursor.fetchall()
