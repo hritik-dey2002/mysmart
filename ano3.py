@@ -66,8 +66,8 @@ def com_get_meeting_link():
     cursor.execute("""
        SELECT candidate_id, interview_date, interview_time, jitsi_link, rid, domain 
     FROM interview_schedule
-    WHERE interview_date = %s, (today,);
-    """)
+    WHERE interview_date = %s
+    """, (today,))
     result=cursor.fetchall()
     if result:
         for id, date, time, link, rid, domain in result:
