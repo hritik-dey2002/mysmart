@@ -174,7 +174,7 @@ def send_email(to_email, subject, message):
         print(f'Error sending email: {e}')
 
 
-connection = mysql.connector.connect(host='localhost', user='root', password='',database='my5')
+connection = mysql.connector.connect(host='sql12.freesqldatabase.com', user='sql12782695', password='UtpUX9H2nd',database='sql12782695')
 cursor = connection.cursor()
 
 
