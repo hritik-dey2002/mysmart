@@ -42,16 +42,24 @@ def generate_jitsi_link():
 
 
 def get_meeting_link():
+    today = datetime.date.today()
     candidate_id = st.session_state.get("candidate_id", None)
 
     if not candidate_id:
         return []
 
+    # cursor.execute("""
+    #     SELECT interview_date, interview_time, jitsi_link 
+    #     FROM interview_schedule
+    #     WHERE candidate_id = %s AND interview_date = CURDATE()
+    # """, (candidate_id,))
+
     cursor.execute("""
         SELECT interview_date, interview_time, jitsi_link 
         FROM interview_schedule
-        WHERE candidate_id = %s AND interview_date = CURDATE()
-    """, (candidate_id,))
+        WHERE candidate_id = %s AND interview_date = %s
+    """, (candidate_id,today))
+
 
     return cursor.fetchall()
 
